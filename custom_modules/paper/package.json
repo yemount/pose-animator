@@ -1,0 +1,80 @@
+{
+  "name": "paper",
+  "version": "0.12.4",
+  "description": "The Swiss Army Knife of Vector Graphics Scripting",
+  "license": "MIT",
+  "homepage": "http://paperjs.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paperjs/paper.js"
+  },
+  "bugs": "https://github.com/paperjs/paper.js/issues",
+  "contributors": ["Jürg Lehni <juerg@scratchdisk.com> (http://scratchdisk.com)", "Jonathan Puckey <jonathan@studiomoniker.com> (http://studiomoniker.com)"],
+  "main": "dist/paper-full.js",
+  "types": "dist/paper.d.ts",
+  "scripts": {
+    "build": "gulp build",
+    "dist": "gulp dist",
+    "zip": "gulp zip",
+    "docs": "gulp docs",
+    "load": "gulp load",
+    "jshint": "gulp jshint",
+    "test": "gulp test"
+  },
+  "files": ["AUTHORS.md", "CHANGELOG.md", "dist/", "examples/", "LICENSE.txt", "README.md"],
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "gulp jshint --ensure-branch develop",
+      "pre-push": "gulp test --ensure-branch develop"
+    }
+  },
+  "browser": {
+    "canvas": false,
+    "jsdom": false,
+    "jsdom/lib/jsdom/living/generated/utils": false,
+    "source-map-support": false,
+    "./dist/node/self.js": false,
+    "./dist/node/extend.js": false
+  },
+  "devDependencies": {
+    "acorn": "~0.5.0",
+    "canvas": "^2.4.1",
+    "del": "^4.1.0",
+    "gulp": "^3.9.1",
+    "gulp-cached": "^1.1.0",
+    "gulp-git-streamed": "^2.8.1",
+    "gulp-jshint": "^2.1.0",
+    "gulp-json-editor": "^2.5.2",
+    "gulp-prepro": "^2.4.0",
+    "gulp-qunits": "^2.1.2",
+    "gulp-rename": "^1.4.0",
+    "gulp-shell": "^0.7.0",
+    "gulp-symlink": "^2.1.4",
+    "gulp-uglify": "^1.5.4",
+    "gulp-uncomment": "^0.3.0",
+    "gulp-util": "^3.0.7",
+    "gulp-webserver": "^0.9.1",
+    "gulp-whitespace": "^0.1.0",
+    "gulp-zip": "^3.2.0",
+    "husky": "^2.3.0",
+    "jsdom": "^15.1.1",
+    "jshint": "^2.10.2",
+    "jshint-summary": "^0.4.0",
+    "merge-stream": "^2.0.0",
+    "minimist": "^1.2.0",
+    "mustache": "^3.0.1",
+    "prepro": "^2.4.0",
+    "qunitjs": "^1.23.0",
+    "require-dir": "^1.2.0",
+    "resemblejs": "^3.1.0",
+    "run-sequence": "^2.2.1",
+    "source-map-support": "^0.5.12",
+    "stats.js": "0.17.0",
+    "straps": "^3.0.1",
+    "typescript": "^3.1.6"
+  },
+  "keywords": ["vector", "graphic", "graphics", "2d", "geometry", "bezier", "curve", "curves", "path", "paths", "canvas", "svg", "paper", "paper.js", "paperjs"]
+}
