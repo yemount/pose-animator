@@ -28,6 +28,9 @@ import {PoseIllustration} from './illustrationGen/illustration';
 import {Skeleton, facePartName2Index} from './illustrationGen/skeleton';
 import {FileUtils} from './utils/fileUtils';
 
+import * as girlSVG from './resources/illustration/girl.svg';
+import * as boySVG from './resources/illustration/boy.svg';
+
 const videoWidth = 300;
 const videoHeight = 300;
 const stats = new Stats();
@@ -43,10 +46,10 @@ let minPoseConfidence = 0.15;
 let minPartConfidence = 0.1;
 let nmsRadius = 30.0;
 
-const avatarSvgs = [
-  'illustration/girl.svg',
-  'illustration/boy.svg',
-];
+const avatarSvgs = {
+  'girl': girlSVG.default,
+  'boy': boySVG.default,
+};
 
 /**
  * Loads a the camera to be used in the demo
@@ -93,7 +96,7 @@ const defaultResNetStride = 32;
 const defaultResNetInputResolution = 200;
 
 const guiState = {
-  avatarSVG: avatarSvgs[0],
+  avatarSVG: Object.keys(avatarSvgs)[0],
   debug: {
     showDetectionDebug: true,
     showIllustrationDebug: false,
@@ -112,7 +115,7 @@ function setupGui(cameras) {
   const gui = new dat.GUI({width: 300});
 
   let multi = gui.addFolder('Image');
-  gui.add(guiState, 'avatarSVG', avatarSvgs).onChange(() => parseSVG(guiState.avatarSVG));
+  gui.add(guiState, 'avatarSVG', Object.keys(avatarSvgs)).onChange(() => parseSVG(avatarSvgs[guiState.avatarSVG]));
   multi.open();
 
   let output = gui.addFolder('Debug control');
@@ -261,7 +264,7 @@ export async function bindPage() {
 
   setupGui([], posenet);
   setupFPS();
-  await parseSVG('illustration/girl.svg');
+  await parseSVG(Object.values(avatarSvgs)[0]);
   detectPoseInRealTime(video, posenet);
 }
 

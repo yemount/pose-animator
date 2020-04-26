@@ -18,23 +18,30 @@ export class MathUtils {
 
     // Generate a transform function of p in the coordinate system defined by p0 and p1.
     static getTransformFunc(p0, p1, p) {
-        let dir = p1.subtract(p0).normalize();
+        let d = p1.subtract(p0);
+        let dir = d.normalize();
+        let l0 = d.length;
         let n = dir.clone();
         n.angle += 90;
         let v = p.subtract(p0);
         let x = v.dot(dir);
         let y = v.dot(n);
         return (p0New, p1New) => {
-            let dirNew = p1New.subtract(p0New).normalize();
+            let d = p1New.subtract(p0New);
+            if (d.length === 0) {
+                return p0New.clone();
+            }
+            let scale = d.length / l0;
+            let dirNew = d.normalize();
             let nNew = dirNew.clone();
             nNew.angle += 90;
-            return p0New.add(dirNew.multiply(x)).add(nNew.multiply(y));
+            return p0New.add(dirNew.multiply(x * scale)).add(nNew.multiply(y * scale));
         }
     }
 
-    // Check if v0 and v1 are colinear.
+    // Check if v0 and v1 are collinear.
     // Returns true if cosine of the angle between v0 and v1 is within threshold to 1.
-    static isColinear(v0, v1, threshold = 0.01) {
+    static isCollinear(v0, v1, threshold = 0.01) {
         let colinear = false;
         if (v0 && v1) {
             let n0 = v0.normalize();

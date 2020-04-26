@@ -4,6 +4,7 @@ import { MathUtils } from '../utils/mathUtils';
 import { ColorUtils } from '../utils/colorUtils';
 
 const MIN_POSE_SCORE = 0.3;
+const MIN_FACE_SCORE = 0.8;
 
 const posePartNames = ['leftAnkle', 'leftKnee', 'leftHip', 'leftWrist', 'leftElbow', 'leftShoulder', 
     'rightAnkle', 'rightKnee', 'rightHip', 'rightWrist', 'rightElbow', 'rightShoulder',
@@ -455,19 +456,23 @@ export class Skeleton {
                 this.bRightKneeRightAnkle
             ],
             'leftArm': [
-                this.bLeftShoulderRightShoulder,
-                this.bLeftShoulderLeftHip,
                 this.bLeftShoulderLeftElbow,
                 this.bLeftElbowLeftWrist,
             ],
             'rightArm': [
-                this.bLeftShoulderRightShoulder,
-                this.bRightShoulderRightHip,
                 this.bRightElbowRightWrist,
                 this.bRightShoulderRightElbow,
             ],
             'face': this.faceBones,
         };
+
+        this.faceBones.forEach(bone => {
+            let parts = [bone.kp0, bone.kp1];
+            parts.forEach(part => {
+                part.baseTransFunc = MathUtils.getTransformFunc(this.bLeftJaw2LeftJaw3.kp0.position,
+                    this.bRightJaw2RightJaw3.kp0.position, part.position);
+            });
+        });
     }
 
     update(pose, face) {
@@ -527,7 +532,7 @@ export class Skeleton {
     updateFaceParts(face) {
         let posLeftEar = this.parts['leftEar'].position;
         let posRightEar = this.parts['rightEar'].position;
-        if (face && face.positions && face.positions.length) {
+        if (face && face.positions && face.positions.length && face.faceInViewConfidence > MIN_FACE_SCORE) {
             // Valid face results.
             for (let i = 0; i < facePartNames.length; i++) {
                 let partName = facePartNames[i];
@@ -535,32 +540,27 @@ export class Skeleton {
                 if (!pos) continue;
                 this.parts[partName] = {
                     position: pos,
-                    score: 1    // TODO: use score from face detection.
+                    score: face.faceInViewConfidence
                 };
             }
             // Keep track of the transformation from pose ear positions to face ear positions.
             // This can be used to infer face position when face tracking is lost.
-            this.leftEarP2FFunc = MathUtils.getTransformFunc(posLeftEar, posRightEar, this.parts['leftJaw0'].position);
-            this.rightEarP2FFunc = MathUtils.getTransformFunc(posLeftEar, posRightEar, this.parts['rightJaw0'].position);
+            this.leftEarP2FFunc = MathUtils.getTransformFunc(posLeftEar, posRightEar, this.parts['leftJaw2'].position);
+            this.rightEarP2FFunc = MathUtils.getTransformFunc(posLeftEar, posRightEar, this.parts['rightJaw2'].position);
         } else {
             // Invalid face keypoints. Infer face keypoints from pose.
             let fLeftEar = this.leftEarP2FFunc ? this.leftEarP2FFunc(posLeftEar, posRightEar) : posLeftEar;
             let fRightEar = this.rightEarP2FFunc ? this.rightEarP2FFunc(posLeftEar, posRightEar) : posRightEar;
-            let updatePart = (bone) => {
+            // Also infer face scale from pose.
+            this.currentFaceScale = this.currentBodyScale;
+            this.faceBones.forEach(bone => {
                 let parts = [bone.kp0, bone.kp1];
                 parts.forEach(part => {
-                    if (!part.baseTransFunc) {
-                        part.baseTransFunc = MathUtils.getTransformFunc(this.bLeftJaw2LeftJaw3.kp0.position,
-                            this.bRightJaw2RightJaw3.kp0.position, part.position);
-                    }
                     this.parts[part.name] = {
                         position: part.baseTransFunc(fLeftEar, fRightEar),
                         score: 1,
                     };
                 });
-            }
-            this.faceBones.forEach(bone => {
-                updatePart(bone);
             });
         }
         return true;
@@ -602,7 +602,6 @@ export class Skeleton {
         this.bones.forEach(bone => {
             let path = new scope.Path({
                 segments: [bone.kp0.currentPosition, bone.kp1.currentPosition],
-                // strokeColor: 'black',
                 strokeWidth: 2,
                 strokeColor: bone.boneColor
             });
@@ -724,6 +723,7 @@ export class Skeleton {
     static toFaceFrame(faceDetection) {
         let frame = {
             positions: [],
+            faceInViewConfidence: faceDetection.faceInViewConfidence,
         };
         for (let i = 0; i < facePartNames.length; i++) {
             let partName = facePartNames[i];
