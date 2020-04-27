@@ -15,7 +15,7 @@
     "@tensorflow/tfjs-converter": "^1.7.0",
     "@tensorflow/tfjs-core": "^1.7.0",
     "face-api.js": "^0.22.1",
-    "paper": "file:custom_modules/paper",
+    "paper": "file:third_party/paper",
     "stats.js": "^0.17.0"
   },
   "scripts": {

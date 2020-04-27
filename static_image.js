@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2018 Google Inc. All Rights Reserved.
+ * Copyright 2020 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,6 +14,7 @@
  * limitations under the License.
  * =============================================================================
  */
+
 import * as posenet_module from '@tensorflow-models/posenet';
 import * as facemesh_module from '@tensorflow-models/facemesh';
 import * as tf from '@tensorflow/tfjs';
@@ -24,7 +25,7 @@ import dat from 'dat.gui';
 import {SVGUtils} from './utils/svgUtils'
 import {PoseIllustration} from './illustrationGen/illustration';
 import {Skeleton, facePartName2Index} from './illustrationGen/skeleton';
-import {toggleLoadingUI} from './demo_util';
+import {toggleLoadingUI} from './utils/demoUtils';
 
 import * as boySVG from './resources/illustration/boy.svg';
 import * as girlSVG from './resources/illustration/girl.svg';
@@ -41,7 +42,7 @@ import {
   drawPoint,
   drawSkeleton,
   renderImageToCanvas,
-} from './demo_util';
+} from './utils/demoUtils';
 import { FileUtils } from './utils/fileUtils';
 
 // clang-format on

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright 2018 Google Inc. All Rights Reserved.
+ * Copyright 2020 Google Inc. All Rights Reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -14,6 +14,7 @@
  * limitations under the License.
  * =============================================================================
  */
+
 import * as posenet_module from '@tensorflow-models/posenet';
 import * as facemesh_module from '@tensorflow-models/facemesh';
 import * as tf from '@tensorflow/tfjs';
@@ -22,7 +23,7 @@ import dat from 'dat.gui';
 import Stats from 'stats.js';
 import "babel-polyfill";
 
-import {drawKeypoints, drawPoint, drawSkeleton, isMobile, toggleLoadingUI, tryResNetButtonName, tryResNetButtonText, updateTryResNetButtonDatGuiCss} from './demo_util';
+import {drawKeypoints, drawPoint, drawSkeleton, isMobile, toggleLoadingUI} from './utils/demoUtils';
 import {SVGUtils} from './utils/svgUtils'
 import {PoseIllustration} from './illustrationGen/illustration';
 import {Skeleton, facePartName2Index} from './illustrationGen/skeleton';
@@ -66,12 +67,15 @@ async function setupCamera() {
   video.height = videoHeight;
 
   const mobile = isMobile();
+  if (mobile) {
+    throw new Error('Mobile browsers are not supported yet.');
+  }
   const stream = await navigator.mediaDevices.getUserMedia({
     'audio': false,
     'video': {
       facingMode: 'user',
-      width: mobile ? undefined : videoWidth,
-      height: mobile ? undefined : videoHeight,
+      width: videoWidth,
+      height: videoHeight,
     },
   });
   video.srcObject = stream;
@@ -190,7 +194,7 @@ function detectPoseInRealTime(video) {
       faceDetection.forEach(face => {
         Object.values(facePartName2Index).forEach(index => {
             let p = face.scaledMesh[index];
-            drawPoint(keypointCtx, p[1], p[0], 3, 'red');
+            drawPoint(keypointCtx, p[1], p[0], 2, 'red');
         });
       });
     }
@@ -256,8 +260,8 @@ export async function bindPage() {
     video = await loadVideo();
   } catch (e) {
     let info = document.getElementById('info');
-    info.textContent = 'this browser does not support video capture,' +
-        'or this device does not have a camera';
+    info.textContent = 'this device type is not supported yet, ' +
+      'or this browser does not support video capture.'
     info.style.display = 'block';
     throw e;
   }
