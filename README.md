@@ -44,7 +44,7 @@ To watch files for changes, and launch a dev server:
 yarn watch
 ```
 
-#Animate your own design with Pose Animator
+# Animate your own design with Pose Animator
 
 1. Download the sample skeleton SVG here.
 1. Create a new file in your vector graphics editor of choice. Copy the group named ‘skeleton’ from the above file into your working file. Note: 
