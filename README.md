@@ -44,9 +44,9 @@ To watch files for changes, and launch a dev server:
 yarn watch
 ```
 
-# Animate your own design with Pose Animator
+# Animate your own design
 
-1. Download the sample skeleton SVG here.
+1. Download the [sample skeleton SVG here](https://firebasestorage.googleapis.com/v0/b/pose-animator-demo.appspot.com/o/skeleton.svg?alt=media).
 1. Create a new file in your vector graphics editor of choice. Copy the group named ‘skeleton’ from the above file into your working file. Note: 
 	* Do not add, remove or rename the joints (circles) in this group. Pose Animator relies on these named paths to read the skeleton’s initial position. Missing joints will cause errors.
 	* However you can move the joints around to embed them into your illustration. See step 4.
@@ -54,14 +54,14 @@ yarn watch
     * Flatten all subgroups so that ‘illustration’ only contains path elements.
     * Composite paths are not supported at the moment.
     * The working file structure should look like this:
-```
+	```
         [Layer 1]
         |---- skeleton
         |---- illustration
               |---- path 1
               |---- path 2
               |---- path 3
-```
+	```
 1. Embed the sample skeleton in ‘skeleton’ group into your illustration by moving the joints around.
 1. Export the file as an SVG file.
-1. Open Pose Animator camera demo. Once everything loads, drop your SVG file into the browser tab. You should be able to see it come to life :D
+1. Open [Pose Animator camera demo](https://pose-animator-demo.firebaseapp.com/camera.html). Once everything loads, drop your SVG file into the browser tab. You should be able to see it come to life :D
