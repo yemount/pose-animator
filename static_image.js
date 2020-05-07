@@ -25,7 +25,7 @@ import dat from 'dat.gui';
 import {SVGUtils} from './utils/svgUtils'
 import {PoseIllustration} from './illustrationGen/illustration';
 import {Skeleton, facePartName2Index} from './illustrationGen/skeleton';
-import {toggleLoadingUI} from './utils/demoUtils';
+import {toggleLoadingUI, setStatusText} from './utils/demoUtils';
 
 import * as boySVG from './resources/illustration/boy.svg';
 import * as girlSVG from './resources/illustration/girl.svg';
