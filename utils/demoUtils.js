@@ -124,3 +124,8 @@ export function renderImageToCanvas(image, size, canvas) {
 
   ctx.drawImage(image, 0, 0);
 }
+
+export function setStatusText(text) {
+  const resultElement = document.getElementById('status');
+  resultElement.innerText = text;
+}

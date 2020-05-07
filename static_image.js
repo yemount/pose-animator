@@ -46,7 +46,7 @@ import {
 import { FileUtils } from './utils/fileUtils';
 
 // clang-format on
-const resnetArchitectureName = 'ResNet50';
+const resnetArchitectureName = 'MobileNetV1';
 const avatarSvgs = {
   'girl': girlSVG.default,
   'boy': boySVG.default,
@@ -74,9 +74,9 @@ const CANVAS_WIDTH = 513;
 const CANVAS_HEIGHT = 513;
 
 const defaultQuantBytes = 2;
-const defaultResNetMultiplier = 1.0;
-const defaultResNetStride = 32;
-const defaultResNetInputResolution = 257;
+const defaultMultiplier = 1.0;
+const defaultStride = 16;
+const defaultInputResolution = 257;
 const defaultMaxDetections = 1;
 const defaultMinPartConfidence = 0.1;
 const defaultMinPoseConfidence = 0.2;
@@ -164,26 +164,25 @@ function drawDetectionResults() {
   }
 }
 
-function setStatusText(text) {
-  const resultElement = document.getElementById('status');
-  resultElement.innerText = text;
-}
-
 /**
  * Loads an image, feeds it into posenet the posenet model, and
  * calculates poses based on the model outputs
  */
 async function testImageAndEstimatePoses() {
-  setStatusText('Predicting...');
+  toggleLoadingUI(true);
+  setStatusText('Loading FaceMesh model...');
   document.getElementById('results').style.display = 'none';
 
   // Reload facemesh model to purge states from previous runs.
   facemesh = await facemesh_module.load();
 
   // Load an example image
+  setStatusText('Loading image...');
   sourceImage = await loadImage(sourceImages[guiState.sourceImage]);
 
   // Estimates poses
+  setStatusText('Predicting...');
+  let t0 = new Date();
   predictedPoses = await posenet.estimatePoses(sourceImage, {
     flipHorizontal: false,
     decodingMethod: 'multi-person',
@@ -193,10 +192,11 @@ async function testImageAndEstimatePoses() {
   });
   faceDetection = await facemesh.estimateFaces(sourceImage, false, false);
 
+  console.log('DONE: ', new Date() - t0);
   // Draw poses.
   drawDetectionResults();
 
-  setStatusText('');
+  toggleLoadingUI(false);
   document.getElementById('results').style.display = 'block';
 }
 
@@ -241,15 +241,15 @@ export async function bindPage() {
   canvasScope.setup(canvas);
 
   await tf.setBackend('webgl');
+  setStatusText('Loading PoseNet model...');
   posenet = await posenet_module.load({
     architecture: resnetArchitectureName,
-    outputStride: defaultResNetStride,
-    inputResolution: defaultResNetInputResolution,
-    multiplier: defaultResNetMultiplier,
+    outputStride: defaultStride,
+    inputResolution: defaultInputResolution,
+    multiplier: defaultMultiplier,
     quantBytes: defaultQuantBytes
   });
 
-  toggleLoadingUI(false);
   setupGui(posenet);
   await parseSVG(Object.values(avatarSvgs)[0]);
 }

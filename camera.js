@@ -23,7 +23,7 @@ import dat from 'dat.gui';
 import Stats from 'stats.js';
 import "babel-polyfill";
 
-import {drawKeypoints, drawPoint, drawSkeleton, isMobile, toggleLoadingUI} from './utils/demoUtils';
+import {drawKeypoints, drawPoint, drawSkeleton, isMobile, toggleLoadingUI, setStatusText} from './utils/demoUtils';
 import {SVGUtils} from './utils/svgUtils'
 import {PoseIllustration} from './illustrationGen/illustration';
 import {Skeleton, facePartName2Index} from './illustrationGen/skeleton';
@@ -94,10 +94,11 @@ async function loadVideo() {
   return video;
 }
 
+const defaultPoseNetArchitecture = 'MobileNetV1';
 const defaultQuantBytes = 2;
-const defaultResNetMultiplier = 1.0;
-const defaultResNetStride = 32;
-const defaultResNetInputResolution = 200;
+const defaultMultiplier = 1.0;
+const defaultStride = 16;
+const defaultInputResolution = 200;
 
 const guiState = {
   avatarSVG: Object.keys(avatarSvgs)[0],
@@ -246,16 +247,18 @@ export async function bindPage() {
   canvasScope.setup(canvas);
 
   toggleLoadingUI(true);
+  setStatusText('Loading PoseNet model...');
   posenet = await posenet_module.load({
-    architecture: 'ResNet50',
-    outputStride: defaultResNetStride,
-    inputResolution: defaultResNetInputResolution,
-    multiplier: defaultResNetMultiplier,
+    architecture: defaultPoseNetArchitecture,
+    outputStride: defaultStride,
+    inputResolution: defaultInputResolution,
+    multiplier: defaultMultiplier,
     quantBytes: defaultQuantBytes
   });
+  setStatusText('Loading FaceMesh model...');
   facemesh = await facemesh_module.load();
-  toggleLoadingUI(false);
 
+  setStatusText('Setting up camera...');
   try {
     video = await loadVideo();
   } catch (e) {
@@ -268,7 +271,9 @@ export async function bindPage() {
 
   setupGui([], posenet);
   setupFPS();
+  setStatusText('Loading Avatar file...');
   await parseSVG(Object.values(avatarSvgs)[0]);
+  toggleLoadingUI(false);
   detectPoseInRealTime(video, posenet);
 }
 
