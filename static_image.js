@@ -182,7 +182,6 @@ async function testImageAndEstimatePoses() {
 
   // Estimates poses
   setStatusText('Predicting...');
-  let t0 = new Date();
   predictedPoses = await posenet.estimatePoses(sourceImage, {
     flipHorizontal: false,
     decodingMethod: 'multi-person',
@@ -192,7 +191,6 @@ async function testImageAndEstimatePoses() {
   });
   faceDetection = await facemesh.estimateFaces(sourceImage, false, false);
 
-  console.log('DONE: ', new Date() - t0);
   // Draw poses.
   drawDetectionResults();
 
@@ -260,15 +258,9 @@ FileUtils.setDragDropHandler(loadSVG);
 
 // Target is SVG string or path
 async function loadSVG(target) {
-  let t = new Date();
   let svgScope = await SVGUtils.importSVG(target);
-  console.log('Loading AVatar dt0: ', new Date() - t);
   skeleton = new Skeleton(svgScope);
-  console.log('Loading AVatar dt1: ', new Date() - t);
   illustration = new PoseIllustration(canvasScope);
-  console.log('Loading AVatar dt2: ', new Date() - t);
   illustration.bindSkeleton(skeleton, svgScope);
-  console.log('Loading AVatar dt3: ', new Date() - t);
   testImageAndEstimatePoses();
-  console.log('Loading AVatar dt4: ', new Date() - t);
 }

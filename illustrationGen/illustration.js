@@ -191,7 +191,7 @@ export class PoseIllustration {
         parentBones.forEach(parentBone => {
             let kp0 = keypoints[parentBone.kp0.name];
             let kp1 = keypoints[parentBone.kp1.name];
-            let secondaryBone = new Bone(kp0, kp1, parentBone.skeleton, parentBone.type);
+            let secondaryBone = new Bone().set(kp0, kp1, parentBone.skeleton, parentBone.type);
             kp0.transformFunc = MathUtils.getTransformFunc(parentBone.kp0.position, nosePos, kp0.position);
             kp1.transformFunc = MathUtils.getTransformFunc(parentBone.kp1.position, nosePos, kp1.position);
             secondaryBone.parent = parentBone;

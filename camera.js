@@ -266,6 +266,10 @@ export async function bindPage() {
   setStatusText('Loading FaceMesh model...');
   facemesh = await facemesh_module.load();
 
+  setStatusText('Loading Avatar file...');
+  let t0 = new Date();
+  await parseSVG(Object.values(avatarSvgs)[0]);
+
   setStatusText('Setting up camera...');
   try {
     video = await loadVideo();
@@ -279,8 +283,7 @@ export async function bindPage() {
 
   setupGui([], posenet);
   setupFPS();
-  setStatusText('Loading Avatar file...');
-  await parseSVG(Object.values(avatarSvgs)[0]);
+  
   toggleLoadingUI(false);
   detectPoseInRealTime(video, posenet);
 }
