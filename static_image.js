@@ -29,6 +29,9 @@ import {toggleLoadingUI, setStatusText} from './utils/demoUtils';
 
 import * as boySVG from './resources/illustration/boy.svg';
 import * as girlSVG from './resources/illustration/girl.svg';
+import * as abstractSVG from './resources/illustration/abstract.svg';
+import * as blathersSVG from './resources/illustration/blathers.svg';
+import * as tomNookSVG from './resources/illustration/tom-nook.svg';
 import * as boy_doughnut from './resources/images/boy_doughnut.jpg';
 import * as tie_with_beer from './resources/images/tie_with_beer.jpg';
 import * as test_img from './resources/images/test.png';
@@ -50,6 +53,9 @@ const resnetArchitectureName = 'MobileNetV1';
 const avatarSvgs = {
   'girl': girlSVG.default,
   'boy': boySVG.default,
+  'abstract': abstractSVG.default,
+  'blathers': blathersSVG.default,
+  'tom-nook': tomNookSVG.default,
 };
 const sourceImages = {
   'boy_doughnut': boy_doughnut.default,

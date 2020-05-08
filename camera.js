@@ -31,6 +31,9 @@ import {FileUtils} from './utils/fileUtils';
 
 import * as girlSVG from './resources/illustration/girl.svg';
 import * as boySVG from './resources/illustration/boy.svg';
+import * as abstractSVG from './resources/illustration/abstract.svg';
+import * as blathersSVG from './resources/illustration/blathers.svg';
+import * as tomNookSVG from './resources/illustration/tom-nook.svg';
 
 // Camera stream video element
 let video;
@@ -57,6 +60,9 @@ const stats = new Stats();
 const avatarSvgs = {
   'girl': girlSVG.default,
   'boy': boySVG.default,
+  'abstract': abstractSVG.default,
+  'blathers': blathersSVG.default,
+  'tom-nook': tomNookSVG.default,
 };
 
 /**
