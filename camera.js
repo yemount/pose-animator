@@ -32,21 +32,28 @@ import {FileUtils} from './utils/fileUtils';
 import * as girlSVG from './resources/illustration/girl.svg';
 import * as boySVG from './resources/illustration/boy.svg';
 
-const videoWidth = 300;
-const videoHeight = 300;
-const stats = new Stats();
+// Camera stream video element
+let video;
+let videoWidth = 300;
+let videoHeight = 300;
 
+// Canvas
 let faceDetection = null;
 let illustration = null;
 let canvasScope;
+let canvasWidth = 800;
+let canvasHeight = 800;
 
-const CANVAS_WIDTH = 800;
-const CANVAS_HEIGHT = 800;
-
+// ML models
+let facemesh;
+let posenet;
 let minPoseConfidence = 0.15;
 let minPartConfidence = 0.1;
 let nmsRadius = 30.0;
 
+// Misc
+let mobile = false;
+const stats = new Stats();
 const avatarSvgs = {
   'girl': girlSVG.default,
   'boy': boySVG.default,
@@ -66,10 +73,6 @@ async function setupCamera() {
   video.width = videoWidth;
   video.height = videoHeight;
 
-  const mobile = isMobile();
-  if (mobile) {
-    throw new Error('Mobile browsers are not supported yet.');
-  }
   const stream = await navigator.mediaDevices.getUserMedia({
     'audio': false,
     'video': {
@@ -135,10 +138,6 @@ function setupGui(cameras) {
 function setupFPS() {
   stats.showPanel(0);  // 0: fps, 1: ms, 2: mb, 3+: custom
   document.getElementById('main').appendChild(stats.dom);
-}
-
-function getIllustrationCanvas() {
-  return document.querySelector('.illustration-canvas');
 }
 
 /**
@@ -219,8 +218,8 @@ function detectPoseInRealTime(video) {
     }
 
     canvasScope.project.activeLayer.scale(
-      CANVAS_WIDTH / videoWidth, 
-      CANVAS_HEIGHT / videoHeight, 
+      canvasWidth / videoWidth, 
+      canvasHeight / videoHeight, 
       new canvasScope.Point(0, 0));
 
     // End monitoring code for frames per second
@@ -232,19 +231,28 @@ function detectPoseInRealTime(video) {
   poseDetectionFrame();
 }
 
+function setupCanvas() {
+  mobile = isMobile();
+  if (mobile) {
+    canvasWidth = Math.min(window.innerWidth, window.innerHeight);
+    canvasHeight = canvasWidth;
+    videoWidth *= 0.7;
+    videoHeight *= 0.7;
+  }  
+
+  canvasScope = paper.default;
+  let canvas = document.querySelector('.illustration-canvas');;
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
+  canvasScope.setup(canvas);
+}
+
 /**
  * Kicks off the demo by loading the posenet model, finding and loading
  * available camera devices, and setting off the detectPoseInRealTime function.
  */
-let video;
-let facemesh;
-let posenet;
 export async function bindPage() {
-  canvasScope = paper.default;
-  let canvas = getIllustrationCanvas();
-  canvas.width = CANVAS_WIDTH;
-  canvas.height = CANVAS_HEIGHT;
-  canvasScope.setup(canvas);
+  setupCanvas();
 
   toggleLoadingUI(true);
   setStatusText('Loading PoseNet model...');
@@ -264,7 +272,7 @@ export async function bindPage() {
   } catch (e) {
     let info = document.getElementById('info');
     info.textContent = 'this device type is not supported yet, ' +
-      'or this browser does not support video capture.'
+      'or this browser does not support video capture: ' + e.toString();
     info.style.display = 'block';
     throw e;
   }
@@ -279,16 +287,13 @@ export async function bindPage() {
 
 navigator.getUserMedia = navigator.getUserMedia ||
     navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-
 FileUtils.setDragDropHandler((result) => {parseSVG(result)});
 
-// Target is SVG string or path
 async function parseSVG(target) {
-  let svgScope = await SVGUtils.importSVG(target);
+  let svgScope = await SVGUtils.importSVG(target /* SVG string or file path */);
   let skeleton = new Skeleton(svgScope);
   illustration = new PoseIllustration(canvasScope);
   illustration.bindSkeleton(skeleton, svgScope);
 }
     
-// kick off the demo
 bindPage();

@@ -20,7 +20,7 @@ import { SVGUtils } from '../utils/svgUtils';
 import { MathUtils } from '../utils/mathUtils';
 import { ColorUtils } from '../utils/colorUtils';
 
-const MIN_POSE_SCORE = 0.3;
+const MIN_POSE_SCORE = 0.1;
 const MIN_FACE_SCORE = 0.8;
 
 const posePartNames = ['leftAnkle', 'leftKnee', 'leftHip', 'leftWrist', 'leftElbow', 'leftShoulder', 

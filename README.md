@@ -44,6 +44,12 @@ To watch files for changes, and launch a dev server:
 yarn watch
 ```
 
+## Platform support
+
+Demos are supported on Desktop Chrome and iOS Safari.
+
+It should also run on Chrome on Android and potentially more Android mobile browsers though support has not been tested yet.
+
 # Animate your own design
 
 1. Download the [sample skeleton SVG here](https://firebasestorage.googleapis.com/v0/b/pose-animator-demo.appspot.com/o/skeleton.svg?alt=media).
