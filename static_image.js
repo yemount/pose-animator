@@ -218,7 +218,7 @@ function setupGui() {
   const imageControls = gui.addFolder('Image');
   imageControls.open();
   gui.add(guiState, 'sourceImage', Object.keys(sourceImages)).onChange(() => testImageAndEstimatePoses());
-  gui.add(guiState, 'avatarSVG', Object.keys(avatarSvgs)).onChange(() => parseSVG(avatarSvgs[guiState.avatarSVG]));
+  gui.add(guiState, 'avatarSVG', Object.keys(avatarSvgs)).onChange(() => loadSVG(avatarSvgs[guiState.avatarSVG]));
   
   const debugControls = gui.addFolder('Debug controls');
   debugControls.open();
@@ -251,17 +251,24 @@ export async function bindPage() {
   });
 
   setupGui(posenet);
-  await parseSVG(Object.values(avatarSvgs)[0]);
+  setStatusText('Loading SVG file...');
+  await loadSVG(Object.values(avatarSvgs)[0]);
 }
 
 window.onload = bindPage;
-FileUtils.setDragDropHandler(parseSVG);
+FileUtils.setDragDropHandler(loadSVG);
 
 // Target is SVG string or path
-async function parseSVG(target) {
+async function loadSVG(target) {
+  let t = new Date();
   let svgScope = await SVGUtils.importSVG(target);
+  console.log('Loading AVatar dt0: ', new Date() - t);
   skeleton = new Skeleton(svgScope);
+  console.log('Loading AVatar dt1: ', new Date() - t);
   illustration = new PoseIllustration(canvasScope);
+  console.log('Loading AVatar dt2: ', new Date() - t);
   illustration.bindSkeleton(skeleton, svgScope);
-  testImageAndEstimatePoses(posenet);
+  console.log('Loading AVatar dt3: ', new Date() - t);
+  testImageAndEstimatePoses();
+  console.log('Loading AVatar dt4: ', new Date() - t);
 }

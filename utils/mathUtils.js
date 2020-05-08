@@ -56,6 +56,18 @@ export class MathUtils {
         }
     }
 
+    static getClosestPointOnSegment(p0, p1, p) {
+        let d = p1.subtract(p0);
+        let c = p.subtract(p0).dot(d) / (d.dot(d));
+        if (c >= 1) {
+            return p1.clone();
+        } else if (c <= 0) {
+            return p0.clone();
+        } else {
+            return p0.add(d.multiply(c));
+        }
+    }
+
     // Check if v0 and v1 are collinear.
     // Returns true if cosine of the angle between v0 and v1 is within threshold to 1.
     static isCollinear(v0, v1, threshold = 0.01) {

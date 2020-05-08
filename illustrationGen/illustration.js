@@ -209,7 +209,8 @@ export class PoseIllustration {
         let totalW = 0;
         let weights = {};
         bones.forEach(bone => {
-            let d = bone.boneLine.getNearestPoint(point).getDistance(point);
+            let d = MathUtils.getClosestPointOnSegment(bone.kp0.position, bone.kp1.position, point)
+                .getDistance(point);
             // Absolute weight = 1 / (distance * distance)
             let w = 1 / (d * d);
             weights[bone.name] = {

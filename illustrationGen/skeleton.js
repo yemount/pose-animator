@@ -125,12 +125,12 @@ export const allPartNames = posePartNames.concat(facePartNames);
 // Represents a bone formed by two part keypoints.
 export class Bone {
     constructor(kp0, kp1, skeleton, type) {
+        console.log('constructing...');
         this.name = `${kp0.name}-${kp1.name}`;
         this.kp0 = kp0;
         this.kp1 = kp1;
         this.skeleton = skeleton;
         this.type = type;
-        this.boneLine = new paper.default.Path(kp0.position, kp1.position);
         this.boneColor = ColorUtils.fromStringHash(this.name);
         this.boneColor.saturation += 0.5;
     };
@@ -142,11 +142,12 @@ export class Bone {
         let dir = this.kp1.position.subtract(this.kp0.position).normalize();
         let n = dir.clone();
         n.angle += 90;
-        let closestP = this.boneLine.getNearestPoint(p);
+        let closestP = MathUtils.getClosestPointOnSegment(this.kp0.position, this.kp1.position, p);
         let v = p.subtract(closestP);
         let dirProjD = v.dot(dir);
         let dirProjN = v.dot(n);
-        let anchorPerc = closestP.subtract(this.kp0.position).length / this.boneLine.length;
+        let d = this.kp0.position.subtract(this.kp1.position).length;
+        let anchorPerc = closestP.subtract(this.kp0.position).length / d;
         return {
             transform: new paper.default.Point(dirProjD, dirProjN),
             anchorPerc: anchorPerc,
@@ -282,7 +283,7 @@ export class Skeleton {
         let leftLowerLipBottom0 = getKeyPointFromSVG(skeletonGroup, 'leftLowerLipBottom0');
         let leftLowerLipBottom1 = getKeyPointFromSVG(skeletonGroup, 'leftLowerLipBottom1');
         let lowerLipBottomMid = getKeyPointFromSVG(skeletonGroup, 'lowerLipBottomMid');
-        
+
         this.bLeftShoulderRightShoulder = new Bone(leftShoulder, rightShoulder, this, 'body');
         this.bRightShoulderRightHip = new Bone(rightShoulder, rightHip, this, 'body');
         this.bLeftHipRightHip = new Bone(leftHip, rightHip, this, 'body');
@@ -364,6 +365,7 @@ export class Skeleton {
         this.bRightMouthCornerRightLowerLipBottom0 = new Bone(rightMouthCorner, rightLowerLipBottom0, this, 'face');
         this.bRightLowerLipBottom0RightLowerLipBottom1 = new Bone(rightLowerLipBottom0, rightLowerLipBottom1, this, 'face');
         this.bRightLowerLipBottom1LowerLipBottomMid = new Bone(rightLowerLipBottom1, lowerLipBottomMid, this, 'face');
+        console.log('Done');
 
         this.faceBones = [
             // Face
@@ -589,7 +591,9 @@ export class Skeleton {
             let minDistance = Infinity;
             let boneGroup = this.boneGroups[boneGroupKey];
             boneGroup.forEach(bone => {
-                minDistance = Math.min(minDistance, bone.boneLine.getNearestPoint(point).getDistance(point));
+                let d = MathUtils.getClosestPointOnSegment(bone.kp0.position, bone.kp1.position, point)
+                    .getDistance(point);
+                minDistance = Math.min(minDistance, d);
             });
             minDistances[boneGroupKey] = minDistance;
         });
