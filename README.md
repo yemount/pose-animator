@@ -52,7 +52,7 @@ It should also run on Chrome on Android and potentially more Android mobile brow
 
 # Animate your own design
 
-1. Download the [sample skeleton SVG here](https://firebasestorage.googleapis.com/v0/b/pose-animator-demo.appspot.com/o/skeleton.svg?alt=media).
+1. Download the [sample skeleton SVG here](/resources/samples/skeleton.svg).
 1. Create a new file in your vector graphics editor of choice. Copy the group named ‘skeleton’ from the above file into your working file. Note: 
 	* Do not add, remove or rename the joints (circles) in this group. Pose Animator relies on these named paths to read the skeleton’s initial position. Missing joints will cause errors.
 	* However you can move the joints around to embed them into your illustration. See step 4.

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1200px" height="1200px" viewBox="0 0 1200 1200" style="enable-background:new 0 0 1200 1200;" xml:space="preserve">
+<g id="skeleton_1_">
+	<polygon style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="518.8,349.5 569.1,565.3 685.5,564.5 731.7,349.5 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="517.8,349.5 415.1,349.5 251.8,355.8 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="733.2,349.1 836.4,349.1 999.7,355.5 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="569.1,565.3 575.5,725.5 575.5,933.5 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="685.5,564.5 685.5,725.5 685.5,933.5 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="624.5,170 604.7,172.5 592.2,182 583.6,196.1 
+		581.1,205.4 580.3,217.1 580.3,226.6 581.1,248.3 587.9,268.3 599.5,280.8 609.5,287.5 624.5,290.7 639.3,287.9 649.3,281.2 
+		660.9,268.6 667.7,248.6 668.5,227 668.5,217.4 667.7,205.7 665.2,196.5 657,182 644.4,172.5 624.5,170 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="588.5,206.9 592.5,203.2 598.7,202.2 606,202.2 
+		615.8,206.2 	"/>
+	<polygon style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="594.7,215.1 599.9,211.4 606.2,211.4 611.4,215.6 
+		606.2,216.6 599.9,217.4 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="613,233.2 618.2,233.2 623.7,234 623.7,228.7 
+		623.7,221.6 623.7,216.1 623.7,210.3 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="660,206.5 656,203.6 649.7,202.1 642.4,202.5 
+		632.4,205.7 	"/>
+	<polygon style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="654.1,215.1 648.8,211.4 642.5,211.4 637.4,215.6 
+		642.5,216.6 648.8,217.4 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="634.1,233.2 629.1,233.2 623.7,234 	"/>
+	<polygon style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="607,255.3 613.9,251.9 620.4,250.8 624.5,251.7 
+		628.7,250.8 635.1,251.9 642,255.3 635.6,261.6 628.5,264.4 624.5,264.9 620.4,264.4 613.4,261.6 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="607,255.3 610.6,255.6 620.6,254.8 624.5,255.3 
+		628.5,254.8 638.4,255.6 642,255.3 	"/>
+	<polyline style="fill:none;stroke:#000000;stroke-miterlimit:10;" points="607,255.3 610.6,255.6 620.6,257.7 624.5,258.5 
+		628.5,257.7 638.4,255.6 642,255.3 	"/>
+	<circle id="rightShoulder" cx="518.9" cy="349.2" r="8.2"/>
+	<circle id="rightElbow" cx="415.4" cy="349.3" r="8.2"/>
+	<circle id="rightWrist" cx="252" cy="355.7" r="8.2"/>
+	<circle id="rightHip" cx="569.2" cy="565" r="8.2"/>
+	<circle id="rightKnee" cx="575.6" cy="725.2" r="8.2"/>
+	<circle id="rightAnkle" cx="575.6" cy="933.2" r="8.2"/>
+	<circle id="leftElbow" cx="836.2" cy="348.9" r="8.2"/>
+	<circle id="leftWrist" cx="999.6" cy="355.2" r="8.2"/>
+	<circle id="leftHip" cx="685.6" cy="564.2" r="8.2"/>
+	<circle id="leftKnee" cx="685.6" cy="725.2" r="8.2"/>
+	<circle id="leftAnkle" cx="685.6" cy="933.2" r="8.2"/>
+	<circle id="rightEye0" cx="594.7" cy="215.1" r="0.8"/>
+	<circle id="rightBrow1" cx="592.5" cy="203.2" r="0.8"/>
+	<circle id="rightBrow4" cx="615.8" cy="206.2" r="0.8"/>
+	<circle id="nose1" cx="623.7" cy="216.1" r="0.8"/>
+	<circle id="rightBrow3" cx="606" cy="202.2" r="0.8"/>
+	<circle id="rightEye1" cx="599.9" cy="211.4" r="0.8"/>
+	<circle id="rightBrow0" cx="588.5" cy="206.9" r="0.8"/>
+	<circle id="rightBrow2" cx="598.7" cy="202.2" r="0.8"/>
+	<circle id="rightEye5" cx="599.9" cy="217.4" r="0.8"/>
+	<circle id="rightEye2" cx="606.2" cy="211.4" r="0.8"/>
+	<circle id="rightEye3" cx="611.4" cy="215.6" r="0.8"/>
+	<circle id="nose0" cx="623.7" cy="210.3" r="0.8"/>
+	<circle id="nose3" cx="623.7" cy="228.7" r="0.8"/>
+	<circle id="rightNose0" cx="613" cy="233.2" r="0.8"/>
+	<circle id="rightMouthCorner" cx="607" cy="255.3" r="0.8"/>
+	<circle id="rightNose1" cx="618.2" cy="233.2" r="0.8"/>
+	<circle id="rightUpperLipTop0" cx="613.9" cy="251.9" r="0.8"/>
+	<circle id="nose2" cx="623.7" cy="221.6" r="0.8"/>
+	<circle id="nose4" cx="623.7" cy="234" r="0.8"/>
+	<circle id="upperLipTopMid" cx="624.5" cy="251.7" r="0.8"/>
+	<circle id="rightUpperLipTop1" cx="620.4" cy="250.8" r="0.8"/>
+	<path id="rightMiddleLip" d="M610.6,254.8c0.4,0,0.8,0.4,0.8,0.8c0,0.4-0.4,0.8-0.8,0.8s-0.8-0.4-0.8-0.8S610.2,254.8,610.6,254.8z
+		"/>
+	<circle id="lowerLipBottomMid" cx="624.5" cy="264.9" r="0.8"/>
+	<circle id="upperLipBottomMid" cx="624.5" cy="255.3" r="0.8"/>
+	<circle id="lowerLipTopMid" cx="624.5" cy="258.4" r="0.8"/>
+	<circle id="rightUpperLipBottom1" cx="620.6" cy="254.8" r="0.8"/>
+	<circle id="rightLowerLipTop0" cx="620.6" cy="257.7" r="0.8"/>
+	<circle id="rightLowerLipBottom1" cx="620.4" cy="264.4" r="0.8"/>
+	<circle id="rightLowerLipBottom0" cx="613.4" cy="261.6" r="0.8"/>
+	<circle id="rightEye4" cx="606.2" cy="216.6" r="0.8"/>
+	<circle id="jawMid" cx="624.5" cy="290.7" r="0.8"/>
+	<circle id="rightJaw7" cx="609.5" cy="287.5" r="0.8"/>
+	<circle id="rightJaw6" cx="599.5" cy="280.8" r="0.8"/>
+	<circle id="rightJaw5" cx="587.9" cy="268.3" r="0.8"/>
+	<circle id="rightJaw4" cx="581.1" cy="248.3" r="0.8"/>
+	<circle id="rightJaw3" cx="580.3" cy="226.6" r="0.8"/>
+	<circle id="rightJaw2" cx="580.3" cy="217.1" r="0.8"/>
+	<circle id="rightJaw1" cx="581.1" cy="205.4" r="0.8"/>
+	<circle id="rightJaw0" cx="583.6" cy="196.1" r="0.8"/>
+	<circle id="topMid" cx="624.7" cy="170" r="0.8"/>
+	<circle id="leftTop0" cx="644.4" cy="172.5" r="0.8"/>
+	<circle id="leftTop1" cx="657" cy="182" r="0.8"/>
+	<circle id="leftEye0" cx="654.3" cy="215.1" r="0.8"/>
+	<circle id="leftBrow1" cx="656.2" cy="203.6" r="0.8"/>
+	<circle id="leftBrow4" cx="632.6" cy="205.7" r="0.8"/>
+	<circle id="leftBrow3" cx="642.6" cy="202.5" r="0.8"/>
+	<circle id="leftEye1" cx="649.1" cy="211.4" r="0.8"/>
+	<circle id="leftBrow0" cx="660.2" cy="206.5" r="0.8"/>
+	<circle id="leftBrow2" cx="649.9" cy="202.1" r="0.8"/>
+	<circle id="leftEye5" cx="649.1" cy="217.4" r="0.8"/>
+	<circle id="leftEye2" cx="642.8" cy="211.4" r="0.8"/>
+	<circle id="leftEye3" cx="637.6" cy="215.6" r="0.8"/>
+	<circle id="leftNose0" cx="634.1" cy="233.2" r="0.8"/>
+	<circle id="leftMouthCorner" cx="642" cy="255.3" r="0.8"/>
+	<circle id="leftNose1" cx="629.3" cy="233.2" r="0.8"/>
+	<circle id="leftUpperLipTop0" cx="635.1" cy="251.9" r="0.8"/>
+	<circle id="leftUpperLipTop1" cx="628.7" cy="250.8" r="0.8"/>
+	<path id="leftMiddleLip" d="M638.4,254.8c0.4,0,0.8,0.4,0.8,0.8c0,0.4-0.4,0.8-0.8,0.8s-0.8-0.4-0.8-0.8S638,254.8,638.4,254.8z"/>
+	<circle id="leftUpperLipBottom1" cx="628.5" cy="254.8" r="0.8"/>
+	<circle id="leftLowerLipTop0" cx="628.5" cy="257.7" r="0.8"/>
+	<circle id="leftLowerLipBottom1" cx="628.7" cy="264.4" r="0.8"/>
+	<circle id="leftLowerLipBottom0" cx="635.6" cy="261.6" r="0.8"/>
+	<circle id="leftEye4" cx="642.8" cy="216.6" r="0.8"/>
+	<circle id="leftJaw7" cx="639.3" cy="287.9" r="0.8"/>
+	<circle id="leftJaw6" cx="649.3" cy="281.2" r="0.8"/>
+	<circle id="leftJaw5" cx="660.9" cy="268.6" r="0.8"/>
+	<circle id="leftJaw4" cx="667.7" cy="248.6" r="0.8"/>
+	<circle id="leftJaw3" cx="668.5" cy="227" r="0.8"/>
+	<circle id="leftJaw2" cx="668.5" cy="217.4" r="0.8"/>
+	<circle id="leftJaw1" cx="667.7" cy="205.7" r="0.8"/>
+	<circle id="leftJaw0" cx="665.2" cy="196.5" r="0.8"/>
+	<circle id="rightTop0" cx="604.8" cy="172.5" r="0.8"/>
+	<circle id="rightTop1" cx="592.2" cy="182" r="0.8"/>
+	<circle id="leftShoulder" cx="731.8" cy="349.2" r="8.2"/>
+</g>
+</svg>
