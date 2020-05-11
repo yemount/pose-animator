@@ -4,5 +4,5 @@ COPY . /app
 RUN rm /app/package-lock.json
 RUN rm /app/yarn.lock
 RUN yarn
-CMD yarn watch
+CMD yarn docker
 EXPOSE 1234
