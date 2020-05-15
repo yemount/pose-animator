@@ -19,8 +19,8 @@
     "stats.js": "^0.17.0"
   },
   "scripts": {
-    "watch": "cross-env NODE_ENV=development parcel index.html --no-hmr --open ",
-    "build": "cross-env NODE_ENV=production parcel build index.html --public-url ./",
+    "watch": "cross-env NODE_ENV=development parcel index.html --no-source-maps --no-hmr --open ",
+    "build": "cross-env NODE_ENV=production parcel build index.html --no-source-maps --public-url ./",
     "build-camera": "cross-env NODE_ENV=production parcel build camera.html --public-url ./",
     "lint": "eslint .",
     "link-local": "yalc link"
