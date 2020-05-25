@@ -35,6 +35,8 @@ import * as abstractSVG from './resources/illustration/abstract.svg';
 import * as blathersSVG from './resources/illustration/blathers.svg';
 import * as tomNookSVG from './resources/illustration/tom-nook.svg';
 
+const { ipcRenderer } = window.require('electron')
+
 // Camera stream video element
 let video;
 let videoWidth = 300;
@@ -227,6 +229,15 @@ function detectPoseInRealTime(video) {
       canvasWidth / videoWidth, 
       canvasHeight / videoHeight, 
       new canvasScope.Point(0, 0));
+
+    let illustrationCanvas = document.querySelector('.illustration-canvas');
+    // Note: image/bmp is not supported by Chrome. Is encoding as png fast enough?
+    illustrationCanvas.toBlob(async blob => {
+      const buf = await blob.arrayBuffer()
+      ipcRenderer.send('frame', {
+        data: new Uint8Array(buf)
+      })
+    }, 'image/png')
 
     // End monitoring code for frames per second
     stats.end();
