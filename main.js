@@ -1,10 +1,14 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, shell, BrowserWindow, ipcMain } = require('electron')
 const virtualcam = require('node-virtualcam')
+
+const ratio = 9/16;
+const windowWidth = 960;
+const windowHeight = ratio * windowWidth;
 
 function createWindow () {
     let win = new BrowserWindow({
-      width: 1280,
-      height: 720,
+      width: windowWidth,
+      height: windowHeight,
       autoHideMenuBar: true,
       webPreferences: {
         nodeIntegration: true,
@@ -12,6 +16,12 @@ function createWindow () {
         backgroundThrottling: false
       }
     })
+
+    // https://github.com/electron/electron/issues/1344#issuecomment-392844066
+    win.webContents.on('new-window', function(event, url){
+      event.preventDefault();
+      shell.openExternal(url);
+    });
   
     win.loadFile('dist/camera.html')
 
@@ -30,7 +40,7 @@ function createWindow () {
         console.error('0-byte frame received')
         return
       }
-      console.log(`frame received (${arg.data.length} bytes, ${arg.width}x${arg.height})`)
+      //console.log(`frame received (${arg.data.length} bytes, ${arg.width}x${arg.height})`)
       if (width === 0) {
         width = arg.width
         height = arg.height

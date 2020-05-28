@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>PoseNet - Camera Feed Demo</title>
+    <title>Virtual Camera Avatar</title>
     <base href="./dist">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <style>
@@ -14,8 +14,6 @@
         }
 
         .canvas-container {
-            width: 800px;
-            max-width: 100%;
             display: flex;
             justify-content: center;
             position: relative;
@@ -135,10 +133,7 @@
     <div class="footer">
         <div class="footer-text">
           <p>
-            Pose Animator runs TF.js <strong>FaceMesh</strong> and <strong>PoseNet</strong> models to animate SVG illustrations with camera feed / static images.<br>
-            It currently supports <strong>single-pose</strong>, <strong>single-face</strong> detection, and has been tested on Destkop Chrome & iOS Safari.
-            <br>
-            (PoseNet model config - MobileNetV1, output stride 16, quant bytes 2)
+            Virtual Camera Avatar is based on <a href="https://github.com/yemount/pose-animator" target="_blank">Pose Animator</a>.<br>
           </p>
         </div>
       </div>

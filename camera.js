@@ -23,7 +23,7 @@ import dat from 'dat.gui';
 import Stats from 'stats.js';
 import "babel-polyfill";
 
-import {drawKeypoints, drawPoint, drawSkeleton, isMobile, toggleLoadingUI, setStatusText} from './utils/demoUtils';
+import {drawKeypoints, drawPoint, drawSkeleton, toggleLoadingUI, setStatusText} from './utils/demoUtils';
 import {SVGUtils} from './utils/svgUtils'
 import {PoseIllustration} from './illustrationGen/illustration';
 import {Skeleton, facePartName2Index} from './illustrationGen/skeleton';
@@ -37,17 +37,19 @@ import * as tomNookSVG from './resources/illustration/tom-nook.svg';
 
 const { ipcRenderer } = window.require('electron')
 
+const ratio = 9/16;
+
 // Camera stream video element
 let video;
-let videoWidth = 300;
-let videoHeight = 300;
+let videoWidth = 320;
+let videoHeight = videoWidth * ratio;
 
 // Canvas
 let faceDetection = null;
 let illustration = null;
 let canvasScope;
-let canvasWidth = 800;
-let canvasHeight = 800;
+let canvasWidth = 640;
+let canvasHeight = canvasWidth * ratio;
 
 // ML models
 let facemesh;
@@ -57,7 +59,6 @@ let minPartConfidence = 0.1;
 let nmsRadius = 30.0;
 
 // Misc
-let mobile = false;
 const stats = new Stats();
 const avatarSvgs = {
   'girl': girlSVG.default,
@@ -112,10 +113,10 @@ const defaultStride = 16;
 const defaultInputResolution = 200;
 
 const guiState = {
-  avatarSVG: Object.keys(avatarSvgs)[0],
+  avatar: Object.keys(avatarSvgs)[0],
   debug: {
-    showDetectionDebug: true,
-    showIllustrationDebug: false,
+    detection: true,
+    avatar: false,
   },
 };
 
@@ -128,16 +129,16 @@ function setupGui(cameras) {
     guiState.camera = cameras[0].deviceId;
   }
 
-  const gui = new dat.GUI({width: 300});
+  const gui = new dat.GUI({width: 200});
+  gui.close();
 
   let multi = gui.addFolder('Image');
-  gui.add(guiState, 'avatarSVG', Object.keys(avatarSvgs)).onChange(() => parseSVG(avatarSvgs[guiState.avatarSVG]));
+  multi.add(guiState, 'avatar', Object.keys(avatarSvgs)).onChange(() => parseSVG(avatarSvgs[guiState.avatar]));
   multi.open();
 
-  let output = gui.addFolder('Debug control');
-  output.add(guiState.debug, 'showDetectionDebug');
-  output.add(guiState.debug, 'showIllustrationDebug');
-  output.open();
+  let output = gui.addFolder('Debug');
+  output.add(guiState.debug, 'detection');
+  output.add(guiState.debug, 'avatar');
 }
 
 /**
@@ -192,7 +193,7 @@ function detectPoseInRealTime(video) {
     input.dispose();
 
     keypointCtx.clearRect(0, 0, videoWidth, videoHeight);
-    if (guiState.debug.showDetectionDebug) {
+    if (guiState.debug.detection) {
       poses.forEach(({score, keypoints}) => {
       if (score >= minPoseConfidence) {
           drawKeypoints(keypoints, minPartConfidence, keypointCtx);
@@ -209,6 +210,12 @@ function detectPoseInRealTime(video) {
 
     canvasScope.project.clear();
 
+    // White background
+    var rect = new canvasScope.Path.Rectangle(0, 0, canvasWidth, canvasHeight);
+    rect.sendToBack();
+    rect.fillColor = '#ffffff';
+    canvasScope.project.activeLayer.addChild(rect);
+
     if (poses.length >= 1 && illustration) {
       Skeleton.flipPose(poses[0]);
 
@@ -220,8 +227,9 @@ function detectPoseInRealTime(video) {
       }
       illustration.draw(canvasScope, videoWidth, videoHeight);
 
-      if (guiState.debug.showIllustrationDebug) {
+      if (guiState.debug.avatar) {
         illustration.debugDraw(canvasScope);
+        //illustration.debugDrawLabel(canvasScope);
       }
     }
 
@@ -251,19 +259,16 @@ function detectPoseInRealTime(video) {
 }
 
 function setupCanvas() {
-  mobile = isMobile();
-  if (mobile) {
-    canvasWidth = Math.min(window.innerWidth, window.innerHeight);
-    canvasHeight = canvasWidth;
-    videoWidth *= 0.7;
-    videoHeight *= 0.7;
-  }  
-
   canvasScope = paper.default;
   let canvas = document.querySelector('.illustration-canvas');;
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
   canvasScope.setup(canvas);
+  // By default, paper.js adjusts the canvas size based on screen DPI.
+  // Here we reset it again as we want exactly the size we requested
+  // to avoid sending images that are too big.
+  canvas.width = canvasWidth;
+  canvas.height = canvasHeight;
 }
 
 /**
