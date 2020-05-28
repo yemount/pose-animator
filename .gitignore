@@ -71,3 +71,5 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+virtual-camera-avatar-*
