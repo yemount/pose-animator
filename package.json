@@ -22,7 +22,7 @@
   "scripts": {
     "postinstall": "electron-rebuild -w node-virtualcam",
     "start": "electron .",
-    "package": "electron-packager .",
+    "package": "electron-packager . --asar",
     "watch": "cross-env NODE_ENV=development parcel camera.html --no-hmr --open --no-source-maps --public-url ./",
     "build": "cross-env NODE_ENV=production parcel build camera.html --public-url ./",
     "lint": "eslint ."
