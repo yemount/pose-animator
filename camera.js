@@ -231,13 +231,15 @@ function detectPoseInRealTime(video) {
       new canvasScope.Point(0, 0));
 
     let illustrationCanvas = document.querySelector('.illustration-canvas');
-    // Note: image/bmp is not supported by Chrome. Is encoding as png fast enough?
-    illustrationCanvas.toBlob(async blob => {
-      const buf = await blob.arrayBuffer()
-      ipcRenderer.send('frame', {
-        data: new Uint8Array(buf)
-      })
-    }, 'image/png')
+    let imageData = illustrationCanvas.getContext('2d').getImageData(
+      0, 0, illustrationCanvas.width, illustrationCanvas.height);
+    
+    // TODO: ipc uses JSON and serializes buffers into base64, too inefficient?
+    ipcRenderer.send('frame', {
+      data: imageData.data, // RGBA Uint8ClampedArray
+      width: imageData.width,
+      height: imageData.height
+    });
 
     // End monitoring code for frames per second
     stats.end();

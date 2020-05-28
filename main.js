@@ -1,58 +1,5 @@
-const child_process = require('child_process')
 const { app, BrowserWindow, ipcMain } = require('electron')
-const pathToFfmpeg = require('ffmpeg-static')
-
-let ffmpeg = null
-const serverPort = 1935
-
-function startFfmpeg() {
-  const serverUrl = `rtmp://localhost:${serverPort}/`
-  console.log('starting ffmpeg: ' + pathToFfmpeg)
-  console.log(`ffmpeg server: ${serverUrl}`)
-  // TODO latency still too high
-  ffmpeg = child_process.spawn(pathToFfmpeg, [
-    '-loglevel', 'info',
-    // input
-    '-f', 'image2pipe',
-    '-vsync', 'vfr',
-    '-c:v', 'png',
-    '-i', 'pipe:',
-    // output
-    '-f', 'flv',
-    '-vcodec', 'libx264',
-    '-preset', 'superfast',
-    '-tune', 'zerolatency',
-    '-vsync', 'vfr',
-    '-b:v', '50M',
-    '-vf', 'scale=320:240',
-    '-listen', '1',
-    serverUrl,
-  ], {
-    windowsHide: true
-  });
-  
-  ffmpeg.stdout.on('data', function (data) {
-    console.log('ffmpeg stdout: ' + data);
-  });
-  
-  ffmpeg.stderr.on('data', function (data) {
-    console.log('ffmpeg stderr: ' + data);
-  });
-  
-  ffmpeg.on('error', (err) => {
-    console.log('ffmpeg error: ' + err.message);
-  });
-  
-  ffmpeg.on('exit', (code, signal) => {
-    ffmpeg = null
-    console.log(`ffmpeg exited with code ${code}, restarting...`);
-    startFfmpeg()
-  });
-}
-
-function stopFfmpeg() {
-  ffmpeg.kill()
-}
+const virtualcam = require('node-virtualcam')
 
 function createWindow () {
     let win = new BrowserWindow({
@@ -68,7 +15,11 @@ function createWindow () {
   
     win.loadFile('dist/camera.html')
 
-    startFfmpeg()
+    const fps = 30
+    const delay = 0
+    let width = 0
+    let height = 0
+    let i = 0
 
     ipcMain.on('frame', (event, arg) => {
       if (!arg.data) {
@@ -79,12 +30,19 @@ function createWindow () {
         console.error('0-byte frame received')
         return
       }
-      if (!ffmpeg) {
-        console.log('ignoring frame (ffmpeg not running)')
-        return
+      console.log(`frame received (${arg.data.length} bytes, ${arg.width}x${arg.height})`)
+      if (width === 0) {
+        width = arg.width
+        height = arg.height
+        virtualcam.start(width, height, fps, delay)
+        console.log(`virtual cam output started (${width}x${height} @ ${fps}fps)`);
+        return;
+      } 
+      if (width != arg.width || height != arg.height) {
+        console.error(`received frame with mismatching size: ${arg.width}x${arg.height}`)
       }
-      console.log(`frame received (${arg.data.length} bytes)`)
-      ffmpeg.stdin.write(arg.data);
+      virtualcam.send(i, arg.data)
+      i += 1
     })
 }
   

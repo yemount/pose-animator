@@ -15,11 +15,12 @@
     "@tensorflow/tfjs-converter": "^1.7.0",
     "@tensorflow/tfjs-core": "^1.7.0",
     "face-api.js": "^0.22.1",
-    "ffmpeg-static": "^4.2.2",
+    "node-virtualcam": "file:../node-virtualcam",
     "paper": "^0.12.1",
     "stats.js": "^0.17.0"
   },
   "scripts": {
+    "postinstall": "electron-rebuild -w node-virtualcam",
     "start": "electron .",
     "package": "electron-packager .",
     "watch": "cross-env NODE_ENV=development parcel index.html --no-hmr --open --no-source-maps --public-url ./",
@@ -41,6 +42,7 @@
     "dat.gui": "^0.7.2",
     "electron": "^9.0.0",
     "electron-packager": "^14.2.1",
+    "electron-rebuild": "^1.11.0",
     "eslint": "^4.19.1",
     "eslint-config-google": "^0.9.1",
     "parcel-bundler": "~1.12.4",
