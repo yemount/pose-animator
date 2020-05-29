@@ -5,6 +5,12 @@ const ratio = 9/16;
 const windowWidth = 960;
 const windowHeight = ratio * windowWidth;
 
+const fps = 30
+const delay = 0
+
+let lastReceivedFrame = null;
+let isQuitting = false;
+
 function createWindow () {
     let win = new BrowserWindow({
       width: windowWidth,
@@ -25,34 +31,28 @@ function createWindow () {
   
     win.loadFile('dist/camera.html')
 
-    const fps = 30
-    const delay = 0
     let width = 0
-    let height = 0
-    let i = 0
+    let height = 0  
+    let frameIdx = 0;  
 
     ipcMain.on('frame', (event, arg) => {
-      if (!arg.data) {
-        console.error('null frame received')
-        return
-      }
-      if (arg.data.length === 0) {
-        console.error('0-byte frame received')
-        return
-      }
-      //console.log(`frame received (${arg.data.length} bytes, ${arg.width}x${arg.height})`)
+      lastReceivedFrame = arg.data;
       if (width === 0) {
         width = arg.width
         height = arg.height
         virtualcam.start(width, height, fps, delay)
         console.log(`virtual cam output started (${width}x${height} @ ${fps}fps)`);
-        return;
-      } 
-      if (width != arg.width || height != arg.height) {
-        console.error(`received frame with mismatching size: ${arg.width}x${arg.height}`)
+        var timerId = setInterval(() => {
+          if (isQuitting) {
+            clearInterval(timerId)
+          }
+          virtualcam.send(frameIdx, lastReceivedFrame);
+          frameIdx += 1;
+        }, 1/fps * 1000);
       }
-      virtualcam.send(i, arg.data)
-      i += 1
+      if (width != arg.width || height != arg.height) {
+        throw Error(`received frame with mismatching size: ${arg.width}x${arg.height}`)
+      }
     })
 }
   
@@ -65,6 +65,12 @@ app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
       app.quit()
     }
+})
+
+app.on('will-quit', () => {
+  isQuitting = true
+  virtualcam.stop()
+  console.log('virtual cam output stopped')
 })
 
 app.on('activate', () => {
