@@ -26,14 +26,6 @@ Download and install the following prerequisites:
 - [OBS Studio](https://obsproject.com/download)
 - OBS-VirtualCam for [Windows](https://github.com/Fenrirthviti/obs-virtual-cam/releases)
 
-
-<details>
-<summary>Note for Advanced Users</summary>
-
-You can also download and extract the obs-virtual-cam zip package directly without installing OBS Studio. After unzipping, simply run `regsvr32 /n /i:1 "obs-virtualcam\bin\32bit\obs-virtualsource.dll"` from an elevated command prompt to install the virtual camera device. Use `regsvr32 /u "obs-virtualcam\bin\32bit\obs-virtualsource.dll"` to uninstall it again.
-
-</details>
-
 ## Installation
 
 Download and unzip the latest version of Avatar Animator from the [release page](https://github.com/letmaik/avatar-animator/releases).
