@@ -50,6 +50,7 @@ let illustration = null;
 let canvasScope;
 let canvasWidth = 640;
 let canvasHeight = canvasWidth * ratio;
+let flippedCanvas = null;
 
 // ML models
 let facemesh;
@@ -239,7 +240,12 @@ function detectPoseInRealTime(video) {
       new canvasScope.Point(0, 0));
 
     let illustrationCanvas = document.querySelector('.illustration-canvas');
-    let imageData = illustrationCanvas.getContext('2d').getImageData(
+    // Need to re-draw each frame on a flipped canvas because
+    // the original canvas's transformation matrix is not applied
+    // when using getImageData().
+    let flippedCanvasContext = flippedCanvas.getContext('2d');
+    flippedCanvasContext.drawImage(illustrationCanvas, 0, 0);
+    let imageData = flippedCanvasContext.getImageData(
       0, 0, illustrationCanvas.width, illustrationCanvas.height);
     
     // TODO: ipc uses JSON and serializes buffers into base64, too inefficient?
@@ -269,6 +275,15 @@ function setupCanvas() {
   // to avoid sending images that are too big.
   canvas.width = canvasWidth;
   canvas.height = canvasHeight;
+  // Need to re-draw each frame on a flipped canvas because
+  // the original canvas's transformation matrix is not applied
+  // when using getImageData().
+  flippedCanvas = document.createElement('canvas');
+  flippedCanvas.width = canvasWidth;
+  flippedCanvas.height = canvasHeight;
+  let flippedCanvasContext = flippedCanvas.getContext('2d');
+  flippedCanvasContext.translate(canvasWidth, 0);
+  flippedCanvasContext.scale(-1, 1);
 }
 
 /**
