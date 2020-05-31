@@ -1,10 +1,11 @@
 <!-- omit in toc -->
 # Avatar Animator
 
-Avatar Animator is a fork of [Pose Animator](https://github.com/yemount/pose-animator), a fast and real-time 2D vector illustrations based on Google's [PoseNet](https://github.com/tensorflow/tfjs-models/tree/master/posenet) and [FaceMesh](https://github.com/tensorflow/tfjs-models/tree/master/facemesh) model. It wraps Pose Animator in an Electron app and sends it to a virtual camera for use in video-conferencing apps like Zoom, Microsoft Teams, and Google Meet.
+Avatar Animator is a tool for generating real-time 2D vector-based avatar animations using webcams or other video devices. It can be used with Zoom, Skype, Microsoft Team, Google Meet, and many more video-conferencing apps. The project is a fork of [Pose Animator](https://github.com/yemount/pose-animator), a fast and real-time 2D vector illustrations animator based on Google's [PoseNet](https://github.com/tensorflow/tfjs-models/tree/master/posenet) and [FaceMesh](https://github.com/tensorflow/tfjs-models/tree/master/facemesh) model. It wraps Pose Animator in an Electron app and sends it to a virtual camera.
 
-TODO: add GIF demo.
+![Gif animation showing a demo of Avatar Animator using Microsoft Teams](resources/gifs/demo.gif)
 
+**Demo of Avatar Animator using Microsoft Teams**. In case you are curious, for the demo above, instead of using a real webcam as the input source to Avatar Animator, the input is simulated with [OBS Studio](https://obsproject.com/) and [OBS-VirtualCam](https://github.com/Fenrirthviti/obs-virtual-cam) from a [YouTube video](https://www.youtube.com/watch?v=x_lHk9Lf-ow), leading to the following processing chain: YouTube (browser) 🠚 OBS Studio (desktop capture) 🠚 OBS-VirtualCam (1) 🠚 Avatar Animator 🠚 OBS-VirtualCam (2) 🠚 Microsoft Teams. Why? Just for fun...
 
 <!-- omit in toc -->
 ## Table of Contents
