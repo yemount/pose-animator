@@ -43,6 +43,7 @@ const ratio = 9/16;
 let video;
 let videoWidth = 320;
 let videoHeight = videoWidth * ratio;
+let switchingStreams = false;
 
 // Canvas
 let faceDetection = null;
@@ -74,11 +75,6 @@ const avatarSvgs = {
  *
  */
 async function setupCamera() {
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    throw new Error(
-        'Browser API navigator.mediaDevices.getUserMedia not available');
-  }
-
   const video = document.getElementById('video');
   video.width = videoWidth;
   video.height = videoHeight;
@@ -100,6 +96,44 @@ async function setupCamera() {
   });
 }
 
+async function switchCamera(deviceId) {
+  console.log('switching camera to', deviceId)
+  switchingStreams = true;
+  const video = document.getElementById('video');
+  let stream = video.srcObject;
+  stream.getTracks().forEach(track => {
+    track.stop();
+  });
+  stream = await navigator.mediaDevices.getUserMedia({
+    'audio': false,
+    'video': {
+      deviceId: { exact: deviceId },
+      width: videoWidth,
+      height: videoHeight,
+    },
+  });
+  video.srcObject = stream;
+  return new Promise((resolve) => {
+    video.onloadedmetadata = () => {
+      console.log('switching cameras done')
+      switchingStreams = false;
+      video.play();
+      resolve(video);
+    };
+  });
+}
+
+async function getCameras() {
+  let devices = await navigator.mediaDevices.enumerateDevices()
+  devices = devices.filter(device => device.kind == 'videoinput')
+  const devicesMap = devices.reduce((obj, device) => {
+    obj[device.label] = device.deviceId;
+    return obj;
+  }, {});
+  console.log('Cameras: ', devicesMap)
+  return devicesMap;
+}
+
 async function loadVideo() {
   const video = await setupCamera();
   video.play();
@@ -114,6 +148,7 @@ const defaultStride = 16;
 const defaultInputResolution = 200;
 
 const guiState = {
+  camera: null,
   avatar: Object.keys(avatarSvgs)[0],
   debug: {
     detection: true,
@@ -125,21 +160,19 @@ const guiState = {
  * Sets up dat.gui controller on the top-right of the window
  */
 function setupGui(cameras) {
-
-  if (cameras.length > 0) {
-    guiState.camera = cameras[0].deviceId;
-  }
-
   const gui = new dat.GUI({width: 200});
   gui.close();
 
-  let multi = gui.addFolder('Image');
-  multi.add(guiState, 'avatar', Object.keys(avatarSvgs)).onChange(() => parseSVG(avatarSvgs[guiState.avatar]));
-  multi.open();
+  let camera = gui.addFolder('Camera')
+  camera.add(guiState, 'camera', cameras).onChange(() => switchCamera(guiState.camera))
 
-  let output = gui.addFolder('Debug');
-  output.add(guiState.debug, 'detection');
-  output.add(guiState.debug, 'avatar');
+  let image = gui.addFolder('Image');
+  image.add(guiState, 'avatar', Object.keys(avatarSvgs)).onChange(() => parseSVG(avatarSvgs[guiState.avatar]));
+  image.open();
+
+  let debug = gui.addFolder('Debug');
+  debug.add(guiState.debug, 'detection');
+  debug.add(guiState.debug, 'avatar');
 }
 
 /**
@@ -166,6 +199,11 @@ function detectPoseInRealTime(video) {
   keypointCanvas.height = videoHeight;
 
   async function poseDetectionFrame() {
+    if (switchingStreams) {
+      requestAnimationFrame(poseDetectionFrame);
+      return;
+    }
+
     // Begin monitoring code for frames per second
     stats.begin();
 
@@ -320,7 +358,9 @@ export async function bindPage() {
     throw e;
   }
 
-  setupGui([], posenet);
+  const cameras = await getCameras()
+
+  setupGui(cameras);
   setupFPS();
   
   toggleLoadingUI(false);
