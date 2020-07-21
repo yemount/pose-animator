@@ -291,7 +291,7 @@ export async function bindPage() {
   setupFPS();
   
   toggleLoadingUI(false);
-  detectPoseInRealTime(video, posenet);
+  detectPoseInRealTime(video);
 }
 
 navigator.getUserMedia = navigator.getUserMedia ||
