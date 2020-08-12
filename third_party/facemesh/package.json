@@ -1,0 +1,80 @@
+{
+  "_args": [
+    [
+      "@tensorflow-models/facemesh@0.0.1",
+      "/Users/wzhqwq/Documents/dev/pose-animator"
+    ]
+  ],
+  "_from": "@tensorflow-models/facemesh@0.0.1",
+  "_id": "@tensorflow-models/facemesh@0.0.1",
+  "_inBundle": false,
+  "_integrity": "sha512-7twdyRWB+1TOJE4nJdx0eBGjP6VNyaaqisxvH9RhjCBlv4qJeKsowpg0aCn8I5NpdAukH8wVw2rjfsBP4qPA/A==",
+  "_location": "/@tensorflow-models/facemesh",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@tensorflow-models/facemesh@0.0.1",
+    "name": "@tensorflow-models/facemesh",
+    "escapedName": "@tensorflow-models%2ffacemesh",
+    "scope": "@tensorflow-models",
+    "rawSpec": "0.0.1",
+    "saveSpec": null,
+    "fetchSpec": "0.0.1"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@tensorflow-models/facemesh/-/facemesh-0.0.1.tgz",
+  "_spec": "0.0.1",
+  "_where": "/Users/wzhqwq/Documents/dev/pose-animator",
+  "bugs": {
+    "url": "https://github.com/tensorflow/tfjs-models/issues"
+  },
+  "dependencies": {
+    "@tensorflow-models/blazeface": "0.0.5"
+  },
+  "description": "Pretrained facemesh model",
+  "devDependencies": {
+    "@tensorflow/tfjs-converter": "^1.6.1",
+    "@tensorflow/tfjs-core": "^1.6.1",
+    "@types/jasmine": "~2.5.53",
+    "jasmine": "~3.2.0",
+    "jasmine-core": "~3.1.0",
+    "rimraf": "~2.6.2",
+    "rollup": "~0.58.2",
+    "rollup-plugin-node-resolve": "~3.3.0",
+    "rollup-plugin-typescript2": "~0.13.0",
+    "rollup-plugin-uglify": "~3.0.0",
+    "ts-node": "~5.0.0",
+    "tslint": "~5.8.0",
+    "typescript": "3.3.3333",
+    "yalc": "^1.0.0-pre.27"
+  },
+  "homepage": "https://github.com/tensorflow/tfjs-models#readme",
+  "jsdelivr": "dist/facemesh.min.js",
+  "jsnext:main": "dist/facemesh.esm.js",
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "module": "dist/facemesh.esm.js",
+  "name": "@tensorflow-models/facemesh",
+  "peerDependencies": {
+    "@tensorflow/tfjs-core": "^1.6.1",
+    "@tensorflow/tfjs-converter": "^1.6.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tensorflow/tfjs-models.git"
+  },
+  "scripts": {
+    "build": "rimraf dist && tsc",
+    "build-npm": "yarn build && rollup -c",
+    "lint": "tslint -p . -t verbose",
+    "publish-demo": "./scripts/publish-demo.sh",
+    "publish-local": "yarn build && rollup -c && yalc publish",
+    "test": "ts-node run_tests.ts"
+  },
+  "types": "dist/index.d.ts",
+  "unpkg": "dist/facemesh.min.js",
+  "version": "0.0.1"
+}

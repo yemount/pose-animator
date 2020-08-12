@@ -4,7 +4,7 @@
 .firebaserc
 firebase.json
 # Yarn build output folder
-dist/
+/dist/
 
 # Logs
 logs

@@ -1,3 +1,7 @@
+# fixes
+- 修复了paper作为thrid_party其dist文件夹被.gitignore吃掉的问题（少了个斜杠），怎么只有我这里出问题。。
+- 修复了facemesh无法访问的问题（我花了一中午翻各种域名，但都是404，最终从[facemesh-no-tfhub-dev](https://www.npmjs.com/package/facemesh-no-tfhub-dev)以及[blazeface-no-tfhub-dev](https://www.npmjs.com/package/blazeface-no-tfhub-dev)中得到了能够访问的地址，并修改了facemesh代码中的URL）
+
 # Pose Animator
 
 Pose Animator takes a 2D vector illustration and animates its containing curves in real-time based on the recognition result from PoseNet and FaceMesh. It borrows the idea of skeleton-based animation from computer graphics and applies it to vector characters.
