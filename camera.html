@@ -3,21 +3,23 @@
 
 <head>
     <title>PoseNet - Camera Feed Demo</title>
+
     <style>
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            background-image: url(assets/background2.png);
         }
 
         .canvas-container {
-            width: 800px;
+            width: 100%;
             max-width: 100%;
             display: flex;
             justify-content: center;
             position: relative;
-        }
+                }
 
         .camera-canvas {
             position: absolute;
@@ -34,7 +36,7 @@
         }
 
         .illustration-canvas {
-            border: 1px solid #eeeeee;
+            border: none;
         }
 
         .footer {
@@ -43,6 +45,7 @@
             bottom: 0;
             width: 100%;
             color: black;
+            display: none;
         }
 
         .footer-text {
@@ -103,6 +106,14 @@
         .spinner-text {
             float: left;
         }
+
+        #output, #keypoints {
+            display: none;
+        }
+        #message {
+            height: 100%;
+            border: solid 2px white;
+        }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -130,6 +141,8 @@
         </div>
         <canvas class="illustration-canvas"></cavnas>
     </div>
+    <div id="message">You found the correct pose! Thanks for participating!</div>
+
     <div class="footer">
         <div class="footer-text">
           <p>

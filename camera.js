@@ -29,6 +29,8 @@ import {PoseIllustration} from './illustrationGen/illustration';
 import {Skeleton, facePartName2Index} from './illustrationGen/skeleton';
 import {FileUtils} from './utils/fileUtils';
 
+import * as magritteSVG from './resources/illustration/magritte.svg';
+import * as crocodileSVG from './resources/illustration/crocodile.svg';
 import * as girlSVG from './resources/illustration/girl.svg';
 import * as boySVG from './resources/illustration/boy.svg';
 import * as abstractSVG from './resources/illustration/abstract.svg';
@@ -44,8 +46,8 @@ let videoHeight = 300;
 let faceDetection = null;
 let illustration = null;
 let canvasScope;
-let canvasWidth = 800;
-let canvasHeight = 800;
+let canvasWidth = 1920;
+let canvasHeight = 1080;
 
 // ML models
 let facemesh;
@@ -59,6 +61,8 @@ let mobile = false;
 const stats = new Stats();
 const avatarSvgs = {
   'girl': girlSVG.default,
+  'magritte': magritteSVG.default,
+  'crocodile': crocodileSVG.default,
   'boy': boySVG.default,
   'abstract': abstractSVG.default,
   'blathers': blathersSVG.default,
@@ -210,6 +214,34 @@ function detectPoseInRealTime(video) {
     if (poses.length >= 1 && illustration) {
       Skeleton.flipPose(poses[0]);
 
+      // If both wrists are below hips, we are in the correct pose.
+      const skeleton = {};
+      poses[0].keypoints.forEach(kp => {
+        skeleton[kp.part] = kp;
+      });
+
+      const correctPoseRange = 30; // pixels above or below hips
+      const minConfidence = 0.1;
+      if (skeleton['rightWrist'].score > minConfidence &&
+          skeleton['leftWrist'].score > minConfidence &&
+          skeleton['rightHip'].score > minConfidence &&
+          skeleton['leftHip'].score > minConfidence &&
+          Math.abs(skeleton['leftWrist'].position.x - skeleton['leftHip'].position.x) < correctPoseRange &&
+          Math.abs(skeleton['rightWrist'].position.x - skeleton['rightHip'].position.x) < correctPoseRange
+) {
+        // Correct pose
+        console.log('Correct pose');
+        document.getElementById('message').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('message').style.display = 'none';
+        }, 10000);
+
+      } else {
+        // Not the correct pose
+        // document.getElementById('message').innerHTML = '&nbsp;';
+      }
+
+
       if (faceDetection && faceDetection.length > 0) {
         let face = Skeleton.toFaceFrame(faceDetection[0]);
         illustration.updateSkeleton(poses[0], face);
@@ -287,8 +319,8 @@ export async function bindPage() {
     throw e;
   }
 
-  setupGui([], posenet);
-  setupFPS();
+  // setupGui([], posenet);
+  // setupFPS();
   
   toggleLoadingUI(false);
   detectPoseInRealTime(video, posenet);
